@@ -7,6 +7,7 @@ namespace ParikshaModel.Model
         public int SubjectId { get; set; }
         public String SubjectName { get; set; }
         public String SubjectCategory { get; set; }
+        public virtual Standard Standard {get;set;}
         public ICollection<Question> Questions { get; set; }
     }
 }
