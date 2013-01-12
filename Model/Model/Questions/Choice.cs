@@ -8,6 +8,6 @@ namespace ParikshaModel.Model
         public String QuestionText { get; set; }
         public List<String> Choices { get; set; }
         public List<String> Answers { get; set; }
-        public bool Multiplechoice { get; set; }
+        public bool IsMultiplechoice { get; set; }
     }
 }

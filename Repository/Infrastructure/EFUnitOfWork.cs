@@ -5,17 +5,17 @@ namespace EFRepository.Infrastructure
 {
     public class EFUnitOfWork : IUnitOfWork
     {
-        private DbContext context;
-        private bool disposed = false;
+        private DbContext _context;
+        private bool _disposed = false;
 
         public EFUnitOfWork(DbContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public void Commit()
         {
-            context.SaveChanges();
+            _context.SaveChanges();
         }
 
         // Implement IDisposable.       
@@ -29,16 +29,17 @@ namespace EFRepository.Infrastructure
         protected virtual void Dispose(bool disposing)
         {
             // Check to see if Dispose has already been called.
-            if (!this.disposed)
+            if (!this._disposed)
             {
                 // If disposing equals true, dispose all managed and unmanaged resources.
                 if (disposing)
                 {
                     // Dispose managed resources.
-                    this.Dispose();
+                    if (_context != null)
+                        _context.Dispose();                   
                 }                
             }
-            disposed = true;
+            _disposed = true;
         }
     }
 }

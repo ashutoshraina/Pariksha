@@ -49,8 +49,7 @@ namespace IntegrationTests
 
         [TestFixture]
         public class UserDetailTest : CrudTest
-        {        
-
+        {     
                 [Test]
                 [Category("CRUDTestForUser")]
                 public void Create()
@@ -105,7 +104,6 @@ namespace IntegrationTests
          [TestFixture]
         public class QuestionTest : CrudTest
         {
-
                 [Test]
                 [Category("CRUDTestForQuestion")]
                 public void Create()
