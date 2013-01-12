@@ -30,8 +30,7 @@ namespace EFRepository.Context
         {
             modelBuilder.Entity<Test>()
                         .HasRequired(t => t.Creator)
-                        .WithMany()
-                        .HasForeignKey(t => t.UserDetailId)
+                        .WithMany()                        
                         .WillCascadeOnDelete(false);
         }
     }

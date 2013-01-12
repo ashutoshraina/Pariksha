@@ -2,6 +2,7 @@
 
 namespace EFRepository
 {
+    [Serializable]
     public class EFRepositoryUnitOfWorkException : Exception
     {
         public override string Message

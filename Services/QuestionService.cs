@@ -26,15 +26,15 @@ namespace ParikshaServices
             _questionrepository.Query().Where(_ => _.QuestionId == questionId).SingleOrDefault().Difficulty = newDifficulty;
         }
 
-        public IQueryable<Question> GetAllQuestionsByType (String questionType)
+        public IQueryable<Question> GetAllQuestionsByType<T> (T questionType) where T: Question
         {
-            if (questionType.Equals("Brief"))
+            if (questionType.GetType() == typeof(Brief))
                return  _questionrepository.QueryWithInclude("Brief");
-            if (questionType.Equals("Match"))
+            if (questionType.GetType() == typeof(Match))
                return _questionrepository.QueryWithInclude("Match");
-            if (questionType.Equals("Custom"))
+            if (questionType.GetType() == typeof(Custom))
                return _questionrepository.QueryWithInclude("Custom");
-            if (questionType.Equals("Choice"))
+            if (questionType.GetType() == typeof(Choice))
                return  _questionrepository.QueryWithInclude("Choice");
             return null;
             //Should throw a typed exception saying that the questionType is invalid
