@@ -16,20 +16,14 @@ namespace ParikshaServices
             _unitofwork = unitOfWork;
         }
 
-        public void CreateNewTest(ICollection<Question> questionIds, UserDetail creator , Subject subject)
+        public Test CreateNewTest(Test test)
         {
-            Test test = new Test();
-            test.Creator = creator;
-            test.DateOfCreation = DateTime.UtcNow;
-            test.Subject = subject;
-            test.Questions = questionIds;
-            _testrepository.Add(test);
-            _unitofwork.Commit();
+            return _testrepository.Add(test);            
         }
 
         public IQueryable<Test> GetTest(int testId)
         {
-            return _testrepository.QueryWithInclude("Questions").Where(_ => _.TestId == testId);
+            return _testrepository.Query().Where(_ => _.TestId == testId);
         }
         
         public IQueryable<Test> GetTestsCreatedByUser(UserDetail user)

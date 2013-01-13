@@ -7,7 +7,7 @@
     <ProjectGuid>{BD0DE7E1-5D43-4AAC-8A93-1DE78F599B19}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Repository</RootNamespace>
+    <RootNamespace>EFRepository</RootNamespace>
     <AssemblyName>Repository</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -40,11 +40,13 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Context\ParikshaDataBaseInitializer.cs" />
     <Compile Include="Infrastructure\EFRepository.cs" />
     <Compile Include="Infrastructure\EFRepositoryUnitOfWorkException.cs" />
     <Compile Include="Infrastructure\EFUnitOfWork.cs" />

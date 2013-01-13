@@ -11,10 +11,10 @@ namespace UnitTests
     [TestFixture]
     public class QuestionServiceTest
     {
-        private static IRepository<Question> repository;
-        private static QuestionService service;
-        private static IList<Question> questions;
-        private static IUnitOfWork UnitOfWork;
+        private IRepository<Question> repository;
+        private QuestionService service;
+        private IEnumerable<Question> questions;
+        private IUnitOfWork UnitOfWork;
         public TestContext TextContext { get; set; }
         Mock<IRepository<Question>> mockrepository; 
 
@@ -55,7 +55,7 @@ namespace UnitTests
         }
 
         [Test]
-        [Category("QuestionServiceTests")]
+        [Category("QuestionService")]
         [Description("This test checks if the ModifyRating method works correctly")]
         public void RatingChangeCheck()
         {                 
@@ -65,7 +65,7 @@ namespace UnitTests
         }
 
         [Test]
-        [Category("QuestionServiceTests")]
+        [Category("QuestionService")]
         [Description("This test checks if the ModifyDifficulty method works correctly")]
         public void DifficultyChangeCheck()
         {
@@ -74,42 +74,46 @@ namespace UnitTests
         }        
 
         [Test]
-        [Category("QuestionServiceTests")]
+        [Category("QuestionService")]
         [Description("This test checks if the Add Question method works correctly")]
         public void AddQuestionCheck()
         {
             var question = new Question {Difficulty = Difficulty.Difficult,Rating = 5};
             mockrepository.Setup(_ => _.Add(question)).Returns(question);
             var result = service.AddQuestion(question);
+
+            Assert.IsNotNull(result);
             Assert.AreEqual(5, result.Rating);
         }
 
         [Test]
-        [Category("QuestionServiceTests")]
+        [Category("QuestionService")]
         [Description("This test checks if the Add Question method works correctly for Brief")]
         public void AddQuestionBriefCheck()
         {
             var question = new Brief { Difficulty = Difficulty.Hard, Rating = 4, QuestionText = "Who let the dog's out ?",Answer = "It wasn't me"};
             mockrepository.Setup(_ => _.Add(question)).Returns(question);
             var result = service.AddQuestion(question);
+
             Assert.IsNotNull(result);
             Assert.AreEqual(4, result.Rating);
         }
 
         [Test]
-        [Category("QuestionServiceTests")]
+        [Category("QuestionService")]
         [Description("This test checks if the RemoveQuestion method works correctly")]
         public void RemoveQuestionCheck()
         {
             var question = new Brief { QuestionId = 4, Difficulty = Difficulty.Hard, Rating = 5, QuestionText = "Who let the dog's out ?", Answer = "It wasn't me" };
             mockrepository.Setup(_ => _.Remove(question)).Returns(question);
             var result = service.RemoveQuestion(question);
+
             Assert.IsNotNull(result);
             Assert.AreEqual(5, result.Rating);
         }
 
         [Test]
-        [Category("QuestionServiceTests")]
+        [Category("QuestionService")]
         [Description("This test checks if the GetQuestionsByType method works correctly")]
         [TestCase(typeof(Brief))]
         [TestCase(typeof(ParikshaModel.Model.Match))]
@@ -118,7 +122,9 @@ namespace UnitTests
         public void GetQuestionsByTypeCheck(Type questionType)
         {
             var result = service.GetAllQuestionsByType(questionType);
+
             Assert.IsNotNull(result);
+            Assert.IsInstanceOf<IQueryable<Question>> (result);
         }
     }
 }

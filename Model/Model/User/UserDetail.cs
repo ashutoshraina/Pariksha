@@ -7,7 +7,7 @@ namespace ParikshaModel.Model
         public int UserDetailId { get; set; }
         public String Name { get; set; }     
         public String Password { get; set; }
-        public String UserRole { get; set; }
+        public UserRole UserRole { get; set; }
         public DateTime DateOfCreation{  get; set;}
         public ICollection<Question> Questions { get; set; }
     }

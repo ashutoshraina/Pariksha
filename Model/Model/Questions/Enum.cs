@@ -8,4 +8,13 @@
         Hard = 4,
         Difficult = 5
     }
+
+    public enum UserRole
+    {
+        Admin,
+        Student,
+        Teacher,
+        Principal,
+        DeparmentHead
+    }
 }

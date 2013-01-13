@@ -2,7 +2,8 @@
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Conventions;
-
+using System.ComponentModel;
+using System.Configuration;
 namespace EFRepository.Context
 {
     internal class UserDetailConfiguration : EntityTypeConfiguration<UserDetail>
@@ -67,10 +68,9 @@ namespace EFRepository.Context
     public class ParikshaContext :DbContext
     {
         public ParikshaContext()
-        {
-           
+        {           
            Database.Connection.ConnectionString = @"Data Source=ARTHINKPAD\SQLEXPRESS;Initial Catalog=Pariksha;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False;";
-           Database.SetInitializer(new DropCreateDatabaseIfModelChanges<ParikshaContext>());
+           Database.SetInitializer(new ParikshaDataBaseInitializer<ParikshaContext>());
         }
 
         #region DbSet declaration
@@ -96,17 +96,5 @@ namespace EFRepository.Context
             modelBuilder.Configurations.Add(new TestQuestionConfiguration(modelBuilder));  
             modelBuilder.HasDefaultSchema("ParikshaDev");
         }
-    }
+    }    
 }
-
-/*
-USE Master; 
-GO
-  
-ALTER DATABASE Pariksha SET SINGLE_USER WITH ROLLBACK IMMEDIATE 
-GO
- 
--- and finally 
-DROP DATABASE AnnoyingDb; 
-GO
-*/

@@ -8,7 +8,7 @@ namespace ParikshaServices
         private IRepository<UserDetail> _userrepository;
         private IUnitOfWork _unitofwork;
 
-        public UserService(IUnitOfWork unitOfWork, IRepository<UserDetail> userRepository)
+        public UserService(IRepository<UserDetail> userRepository,IUnitOfWork unitOfWork)
         {
             _userrepository = userRepository;
             _unitofwork = unitOfWork;
@@ -24,7 +24,7 @@ namespace ParikshaServices
             return _userrepository.Remove(user);
         }
 
-        public IQueryable<UserDetail> GetAllUsersByRole(string userRole)
+        public IQueryable<UserDetail> GetAllUsersByRole(UserRole userRole)
         {
            return  _userrepository.Query().Where(_ => _.UserRole == userRole);
         }
