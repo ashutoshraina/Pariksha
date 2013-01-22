@@ -4,8 +4,10 @@ namespace ParikshaModel.Model
 {
     public class Custom : Question
     {
-        public String QuestionText { get; set; }
-        public String Answer { get; set; }
-        public String ImagePath { get; set; }
+        public string QuestionText { get; set; }
+
+        public string Answer { get; set; }
+
+        public string ImagePath { get; set; }
     }
 }

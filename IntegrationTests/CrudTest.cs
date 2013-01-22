@@ -4,46 +4,61 @@ using ParikshaModel.Model;
 using System;
 using System.Linq;
 using NUnit.Framework;
+
 namespace IntegrationTests
 {
     [TestFixture]
     public class CrudTest
     {
         public TestContext TextContext { get; set; }
+        
         public EFUnitOfWork EfUoW { get; set; }
+        
         public ParikshaContext Context { get; set; }
+        
         public EFRepository<UserDetail> UserRepository { get; set; }
-        public EFRepository<Standard> StandardRepository {get;set;}
-        public EFRepository<Subject> SubjectRepository {get;set;}
-        public EFRepository<Question> QuestionRepository {get;set;}
+        
+        public EFRepository<Standard> StandardRepository { get; set; }
+        
+        public EFRepository<Subject> SubjectRepository { get; set; }
+        
+        public EFRepository<Question> QuestionRepository { get; set; }
+        
         public UserDetail User { get; set; }
+        
+        public Subject Subject { get; set; }
+        
+        public Standard Standard { get; set; }
+        
 
         /// <summary>
-        ///Initialize() is called once during test execution before
-        ///test methods in this test class are executed.
-        ///</summary>
-        [SetUp()]
+        /// Initialize() is called once during test execution before
+        /// test methods in test class are executed.
+        /// </summary>
+        [TestFixtureSetUp]
         public void Initialize()
         {
-            Context = new ParikshaContext();            
+            Context = new ParikshaContext();
             EfUoW = new EFUnitOfWork(Context);
-            UserRepository = new EFRepository<UserDetail>(EfUoW,Context);
+            UserRepository = new EFRepository<UserDetail>(EfUoW, Context);
             QuestionRepository = new EFRepository<Question>(EfUoW, Context);
-            StandardRepository = new EFRepository<Standard>(EfUoW,Context);
+            StandardRepository = new EFRepository<Standard>(EfUoW, Context);
             SubjectRepository = new EFRepository<Subject>(EfUoW, Context);
             User = new UserDetail { UserRole = UserRole.Admin, Password = "Pwd", Name = "ashutosh", DateOfCreation = DateTime.UtcNow };
             UserRepository.Add(User);
+            Standard = new Standard { StandardName = "First" };
+            Subject = new Subject { SubjectName = "Mathematics", SubjectCategory = "Algebra", Standard = Standard };
             EfUoW.Commit();
         }
 
         /// <summary>
-        ///Cleanup() is called once during test execution after test methods in this class have executed unless
-        ///this test class' Initialize() method throws an exception.
-        ///</summary>
-        [TearDown()]
+        /// Cleanup() is called once during test execution after test methods in class have executed unless
+        /// test class' Initialize() method throws an exception.
+        /// </summary>
+        [TestFixtureTearDown]
         public void Cleanup()
         {
-            //Context.Database.ExecuteSqlCommand("delete from ParikshaDev.Users");
+            // Context.Database.ExecuteSqlCommand("delete from ParikshaDev.Users");
             EfUoW.Dispose();            
         }
 
@@ -54,12 +69,13 @@ namespace IntegrationTests
                 [Category("CRUDTestForUser")]
                 public void Create()
                 {
-                    User = new UserDetail { UserRole = UserRole.Admin, Password = "Pwd", Name = "awesome", DateOfCreation = DateTime.UtcNow };    
+                    User = new UserDetail { UserRole = UserRole.Admin, Password = "MySuperAwesomePasswordThatYouWillNotBeAbleToCrack", 
+                                                      Name = "awesome", DateOfCreation = DateTime.UtcNow };    
                     var initialCount = UserRepository.Query().Count();
                     UserRepository.Add(User);
                     EfUoW.Commit();
                     var result = UserRepository.Query().Count();
-                    Assert.AreEqual(initialCount + 1 , result);
+                    Assert.AreEqual(initialCount + 1, result);
                 }
 
                 [Test]
@@ -69,11 +85,11 @@ namespace IntegrationTests
                    var result = UserRepository.Query().Where(_ => _.Name.Equals("ashutosh"));
                    var type = result.FirstOrDefault().GetType();
                    var role = result.FirstOrDefault().UserRole;
-                   bool IsCountGreaterThanZero = false;
+                   bool isCountGreaterThanZero = false;
                    if (result.Count() > 0)
-                       IsCountGreaterThanZero = true;
+                       isCountGreaterThanZero = true;
                    Assert.AreEqual(typeof(UserDetail), type);
-                   Assert.AreEqual(true,IsCountGreaterThanZero);
+                   Assert.AreEqual(true,isCountGreaterThanZero);
                    Assert.AreEqual(UserRole.Admin, role);
                 }
 
@@ -81,11 +97,12 @@ namespace IntegrationTests
                 [Category("CRUDTestForUser")]
                 public void Update()
                 {
-                    UserRepository.Query().Where(_ => _.Name.Equals("ashutosh")).FirstOrDefault().UserRole = UserRole.Admin;
+                    var user = UserRepository.Query().Where(_ => _.Name.Equals("ashutosh")).FirstOrDefault();
+                    user.UserRole = UserRole.Student;
                     EfUoW.Commit();
                     var result = UserRepository.Query().Where(_ => _.Name.Equals("ashutosh")).FirstOrDefault();
                     Assert.IsNotNull(result);
-                    Assert.AreEqual(UserRole.Admin, result.UserRole);
+                    Assert.AreEqual(UserRole.Student, result.UserRole);
                 }
 
                 [Test]
@@ -100,15 +117,46 @@ namespace IntegrationTests
                 }  
         }
 
-         [TestFixture]
+        [TestFixture]
         public class QuestionTest : CrudTest
         {
-                [Test]
-                [Category("CRUDTestForQuestion")]
-                public void Create()
+            private static Brief BriefQuestionToBeCreated { get; set; }
+
+            private static Match MatchQuestionToBeCreated { get; set; }
+
+            [TestFixtureSetUp]
+            public void Initialise()
+            {
+                BriefQuestionToBeCreated = new Brief
                 {
-                    var question = new Brief {QuestionText = "I am a brief question",Rating = 4 , Short = true, Difficulty = Difficulty.Hard, Answer = "No real question", DateOfCreation = DateTime.UtcNow };
-                    var brief = QuestionRepository.Add(question);
+                    QuestionText = "I am a brief question",
+                    Rating = 4,
+                    Short = true,
+                    Difficulty = Difficulty.Hard,
+                    Answer = "No real question",
+                    Creator = User,
+                    Subject = Subject,
+                    DateOfCreation = DateTime.UtcNow
+                };
+
+                MatchQuestionToBeCreated = new Match
+                {
+                    QuestionText = "I am a brief question",
+                    Rating = 4,
+                    LeftChoices = "foo;baar;temp;help",
+                    Difficulty = Difficulty.Hard,
+                    RightChoices = "foo;baar;temp;help",
+                    Creator = User,
+                    Subject = Subject,
+                    DateOfCreation = DateTime.UtcNow
+                };
+                   
+            }
+                [Test]
+                [Category("CRUDTestForQuestion")]                
+                public void CreateBrief()
+                {
+                    var brief = QuestionRepository.Add(BriefQuestionToBeCreated);
                     EfUoW.Commit();
                     var result = QuestionRepository.Query().OfType<Brief>().Where(_ => _.QuestionId == brief.QuestionId).SingleOrDefault();
                     Assert.IsNotNull(brief);
@@ -117,29 +165,42 @@ namespace IntegrationTests
 
                 [Test]
                 [Category("CRUDTestForQuestion")]
+                public void CreateMatch()
+                {
+                    var match = QuestionRepository.Add(MatchQuestionToBeCreated);
+                    EfUoW.Commit();
+                    var result = QuestionRepository.Query().OfType<Match>().Where(_ => _.QuestionId == match.QuestionId).SingleOrDefault();
+                    Assert.IsNotNull(match);
+                    Assert.AreEqual("I am a brief question", result.QuestionText);
+                }
+
+                [Test]
+                [Category("CRUDTestForQuestion")]
                 public void Retrieve()
                 {
-                    var questionToAdd = new Brief { QuestionText = "I am a brief question", Rating = 4, Short = true, Difficulty = Difficulty.Hard, Answer = "No real question", DateOfCreation = DateTime.UtcNow };
+                    var questionToAdd = new Brief { QuestionText = "I am a brief question", Rating = 4, Short = true, Difficulty = Difficulty.Hard, 
+                                                    Answer = "No real question", Creator = User, Subject = Subject, DateOfCreation = DateTime.UtcNow };
                     var brief = QuestionRepository.Add(questionToAdd);
                     EfUoW.Commit();
 
                     var result = QuestionRepository.Query().OfType<Brief>().FirstOrDefault();
                     Assert.IsNotNull(result);
                     Assert.IsInstanceOf<Brief>(result);
-                    Assert.AreEqual(true,result.Short);
+                    Assert.AreEqual(true, result.Short);
                 }
 
                 [Test]
                 [Category("CRUDTestForQuestion")]
                 public void Update()
                 {
-                    var questionToAdd = new Brief { QuestionText = "I am a brief question", Rating = 4, Short = true, Difficulty = Difficulty.Hard, Answer = "No real question", DateOfCreation = DateTime.UtcNow };
+                    var questionToAdd = new Brief { QuestionText = "I am a brief question", Rating = 4, Short = true, Difficulty = Difficulty.Hard, 
+                                                    Answer = "No real question", Creator = User, Subject = Subject, DateOfCreation = DateTime.UtcNow };
                     var brief = QuestionRepository.Add(questionToAdd);
                     EfUoW.Commit();
 
                     var question = QuestionRepository.Query().OfType<Brief>().Where(_ => _.Rating > 3).FirstOrDefault();
                     question.Answer = "I have changed the answer";
-                    var result =  QuestionRepository.Update(question);
+                    var result = QuestionRepository.Update(question);
                     EfUoW.Commit();
 
                     Assert.IsNotNull(result);
@@ -155,22 +216,22 @@ namespace IntegrationTests
                     QuestionRepository.Remove(question);
                     EfUoW.Commit();
                     var result = QuestionRepository.Query().Where(_ => _.QuestionId == question.QuestionId).Count();
-                    Assert.AreEqual(0,result);
+                    Assert.AreEqual(0, result);
                 }          
         }
 
-         [TestFixture]
+        [TestFixture]
         public class StandardTest : CrudTest
         {
                 [Test]
                 [Category("CRUDTestForStandard")]
                 public void Create()
                 {
-                    var standard = new Standard{StandardName = "First"};
+                    var standard = new Standard { StandardName = "First" };
                     var result = StandardRepository.Add(standard);
                     EfUoW.Commit();
                     Assert.IsNotNull(result);
-                    Assert.AreEqual("First",result.StandardName);
+                    Assert.AreEqual("First", result.StandardName);
                 }
 
                 [Test]
@@ -185,7 +246,7 @@ namespace IntegrationTests
                 [Category("CRUDTestForStandard")]
                 public void Update()
                 {
-                    var subject = new Subject{SubjectName = "Mathematics",SubjectCategory = "Addition"};
+                    var subject = new Subject { SubjectName = "Mathematics", SubjectCategory = "Addition" };
                     var result = StandardRepository.Query().FirstOrDefault();                    
                     result.StandardName = "FooBaar";
                     var initialCount = result.Subjects.Count();
@@ -194,27 +255,27 @@ namespace IntegrationTests
                     EfUoW.Commit();
 
                     var subjectName = StandardRepository.Query().FirstOrDefault().StandardName;
-                    Assert.AreEqual("FooBaar",subjectName);
-                    Assert.AreEqual((initialCount + 1),result.Subjects.Count());
-                    Assert.AreEqual(true,result.Subjects.Contains(subject));
+                    Assert.AreEqual("FooBaar", subjectName);
+                    Assert.AreEqual(initialCount + 1, result.Subjects.Count());
+                    Assert.AreEqual(true, result.Subjects.Contains(subject));
                 }
 
                 [Test]
                 [Category("CRUDTestForStandard")]
                 public void Delete()
                 {
-                    var standard = new Standard{StandardName = "Second"};
+                    var standard = new Standard { StandardName = "Second" };
                     var subjectAdded = StandardRepository.Add(standard);
                     EfUoW.Commit();
                     StandardRepository.Remove(subjectAdded);
                     EfUoW.Commit();
                     var result = StandardRepository.Query().Where(_ => _.StandardId == subjectAdded.StandardId).Count();
                     Assert.IsNotNull(result);
-                    Assert.AreEqual(0,result);
+                    Assert.AreEqual(0, result);
                 }        
          }
 
-         [TestFixture]
+        [TestFixture]
         public class SubjectTest : CrudTest
         {
                 [Test]
@@ -223,16 +284,16 @@ namespace IntegrationTests
                 {
                     var initialCount = SubjectRepository.Query().Count();
                     var standard = StandardRepository.Query().FirstOrDefault();
-                    var subject = new Subject{SubjectName = "DataStructures", SubjectCategory = "Advanced" ,Standard = standard};
+                    var subject = new Subject { SubjectName = "DataStructures", SubjectCategory = "Advanced", Standard = standard };
                     SubjectRepository.Add(subject);                    
                     EfUoW.Commit();
 
                     var finalCount = SubjectRepository.Query().Count();
                     var result = SubjectRepository.Query().Where(_ => _.SubjectName.Equals("DataStructures")).FirstOrDefault();
 
-                    Assert.AreEqual(initialCount + 1 , finalCount);
+                    Assert.AreEqual(initialCount + 1, finalCount);
                     Assert.IsNotNull(result);
-                    Assert.AreEqual("Advanced",result.SubjectCategory);
+                    Assert.AreEqual("Advanced", result.SubjectCategory);
                 }
 
                 [Test]
@@ -260,7 +321,7 @@ namespace IntegrationTests
                     EfUoW.Commit();
 
                     Assert.IsNotNull(result);
-                    Assert.AreEqual("SuperAdvanced",result.SubjectCategory);
+                    Assert.AreEqual("SuperAdvanced", result.SubjectCategory);
                 }
 
                 [Test]
@@ -283,4 +344,5 @@ namespace IntegrationTests
                 }
         }
     }
+
 }

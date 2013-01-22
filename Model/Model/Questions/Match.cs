@@ -6,31 +6,34 @@ namespace ParikshaModel.Model
 {
     public class Match : Question
     {
-        private String leftchoices;
-        private String rightchoices;
+        private IEnumerable<string> _leftChoices;
 
-        public String QuestionText { get; set; }
-        public IEnumerable<String> LeftChoices 
+        private IEnumerable<string> _rightChoices;
+
+        public string QuestionText { get; set; }
+
+        public string LeftChoices 
         {
-            get 
-            { 
-                return leftchoices.Split(',').ToList();
-            } 
-            set 
-            { 
-                leftchoices = String.Join(",",LeftChoices);
-            } 
-        }
-        public IEnumerable<String> RightChoices 
-        { 
             get
             {
-                return rightchoices.Split(',').ToList();
+                return string.Join(";", _leftChoices);
             }
-            set 
+            set
             {
-                rightchoices = String.Join(",", LeftChoices);
-            } 
+                _leftChoices = value != null ? value.Split(';').AsEnumerable() : null;
+            }            
+        }
+
+        public string RightChoices 
+        {
+            get
+            {
+                return string.Join(";", _rightChoices);
+            }
+            set
+            {
+                _rightChoices = value != null ? value.Split(';').AsEnumerable() : null;
+            }            
         }
     }
 }

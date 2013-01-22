@@ -11,15 +11,15 @@ namespace EFRepository.Context
         public void InitializeDatabase(TContext context)
         {
             var exists = context.Database.Exists();
-            if(exists && context.Database.CompatibleWithModel(true))
+
+            if (exists && context.Database.CompatibleWithModel(true))
             {
                 return;
             }
-            if(exists)
+            if (exists)
             {
                 context.Database.ExecuteSqlCommand("USE Master;ALTER DATABASE Pariksha SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE Pariksha");
-                context.SaveChanges();
-                //context.Database.Delete();
+                context.SaveChanges();                
             }
             context.Database.Create();
         } 

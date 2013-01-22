@@ -9,6 +9,6 @@ namespace EFRepository.Infrastructure
         T Remove(T entity);
         T Update(T entity);
         IQueryable<T> Query();
-        IQueryable<T> QueryWithInclude(String include);
+        IQueryable<T> QueryWithInclude(string include);
     }
 }

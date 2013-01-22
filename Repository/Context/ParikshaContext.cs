@@ -1,19 +1,31 @@
 ﻿using ParikshaModel.Model;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
+using System.Data.Entity.ModelConfiguration.Configuration.Properties.Primitive;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.ComponentModel;
-using System.Configuration;
+using System.Reflection;
 namespace EFRepository.Context
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal class UserDetailConfiguration : EntityTypeConfiguration<UserDetail>
     {
         public UserDetailConfiguration(DbModelBuilder modelBuilder)
         {
-            this.ToTable("Users");
+            HasMany(_ => _.Questions)                
+                .WithRequired(_ => _.Creator)
+                .Map(_ => _.MapKey("UserDetailId"))
+                .WillCascadeOnDelete(false);
+            ToTable("Users");
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal class QuestionConfiguration : EntityTypeConfiguration<Question>
     {
         public QuestionConfiguration(DbModelBuilder modelBuilder)
@@ -25,6 +37,9 @@ namespace EFRepository.Context
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal class TestConfiguration : EntityTypeConfiguration<Test>
     {
         public TestConfiguration(DbModelBuilder modelBuilder)
@@ -35,27 +50,40 @@ namespace EFRepository.Context
                         .WillCascadeOnDelete(false);
         }
     }
-
+    
+    /// <summary>
+    /// 
+    /// </summary>
     internal class StandardConfiguration : EntityTypeConfiguration<Standard>
     {
         public StandardConfiguration(DbModelBuilder modelBuilder)
         {
-            this.HasMany(_ => _.Subjects)
+            HasMany(_ => _.Subjects)
                 .WithRequired(_ => _.Standard)
                 .Map(_ => _.MapKey("StandardId"))
                 .WillCascadeOnDelete(false);
-            this.ToTable("Standard");
+            ToTable("Standard");
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal class SubjectConfiguration : EntityTypeConfiguration<Subject>
     {
         public SubjectConfiguration(DbModelBuilder modelBuilder)
         {
-            this.ToTable("Subject");
+            HasMany(_ => _.Questions)
+                .WithRequired(_ => _.Subject)
+                .Map(_ => _.MapKey("SubjectId"))
+                .WillCascadeOnDelete(true);
+            ToTable("Subject");
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     internal class TestQuestionConfiguration : EntityTypeConfiguration<TestQuestion>
     {
         public TestQuestionConfiguration(DbModelBuilder modelBuilder)
@@ -65,11 +93,14 @@ namespace EFRepository.Context
         }
     }
     
-    public class ParikshaContext :DbContext
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ParikshaContext : DbContext
     {
         public ParikshaContext()
         {           
-           Database.Connection.ConnectionString = @"Data Source=ARTHINKPAD\SQLEXPRESS;Initial Catalog=Pariksha;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False;";
+           Database.Connection.ConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=Pariksha;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False;";
            Database.SetInitializer(new ParikshaDataBaseInitializer<ParikshaContext>());
         }
 
@@ -86,15 +117,20 @@ namespace EFRepository.Context
             public DbSet<TestQuestion> TestQuestions { get; set; }
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Conventions.Remove<PluralizingEntitySetNameConvention>();
-            modelBuilder.Configurations.Add(new UserDetailConfiguration(modelBuilder)); 
+            modelBuilder.Conventions.Remove<PluralizingEntitySetNameConvention>();            
+            modelBuilder.Configurations.Add(new UserDetailConfiguration(modelBuilder));
+            modelBuilder.Configurations.Add(new StandardConfiguration(modelBuilder)); 
             modelBuilder.Configurations.Add(new SubjectConfiguration(modelBuilder)); 
             modelBuilder.Configurations.Add(new QuestionConfiguration(modelBuilder));
             modelBuilder.Configurations.Add(new TestConfiguration(modelBuilder));
             modelBuilder.Configurations.Add(new TestQuestionConfiguration(modelBuilder));  
             modelBuilder.HasDefaultSchema("ParikshaDev");
-        }
-    }    
+        }      
+    }
 }

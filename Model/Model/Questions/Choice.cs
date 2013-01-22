@@ -5,9 +5,12 @@ namespace ParikshaModel.Model
 {
     public class Choice : Question
     {
-        public String QuestionText { get; set; }
-        public List<String> Choices { get; set; }
-        public List<String> Answers { get; set; }
+        public string QuestionText { get; set; }
+
+        public List<string> Choices { get; set; }
+
+        public List<string> Answers { get; set; }
+
         public bool IsMultiplechoice { get; set; }
     }
 }

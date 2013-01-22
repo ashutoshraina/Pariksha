@@ -12,57 +12,66 @@ namespace UnitTests
     public class TestServiceTest
     {
         private IRepository<Test> _repository;
+        
         private TestService _service;
+        
         private ICollection<Question> _questions;
-        private IUnitOfWork _UnitOfWork;
+        
+        private IUnitOfWork _unitOfWork;
+        
         private IEnumerable<Test> _tests;
+        
         private Subject _subject;
+        
         private UserDetail _user;
+        
         private Test _test;
-        public TestContext TextContext { get; set; }
+
+        public TestContext TestContext { get; set; }
+        
         public Mock<IRepository<Test>> mockrepository;
         
         /// <summary>
-        ///Initialize() is called once during test execution before test methods in this test class are executed.
-        ///</summary>
-        [SetUp()]
+        /// Initialize() is called once during test execution before test methods in test class are executed.
+        /// </summary>
+        [TestFixtureSetUp]
         public void Initialize()
         {
             mockrepository = new Mock<IRepository<Test>>();
 
-            var firstQuestion = new Question  { QuestionId = 1,Difficulty = Difficulty.Hard, Rating = 5};
-            var secondQuestion = new Question { QuestionId = 2, Difficulty = Difficulty.Hard, Rating = 3};
+            var firstQuestion = new Question { QuestionId = 1, Difficulty = Difficulty.Hard, Rating = 5 };
+            var secondQuestion = new Question { QuestionId = 2, Difficulty = Difficulty.Hard, Rating = 3 };
             var brief = new Brief { Difficulty = Difficulty.Hard, Rating = 5, QuestionText = "Who let the dog's out ?", Answer = "It wasn't me" };
-            var choice = new Choice { Difficulty = Difficulty.Hard, Rating = 5, QuestionText = "Who let the dog's out ?", Choices = new List<string> { "Me","You","All of us all are the culprits."},IsMultiplechoice = true };
+            var choice = new Choice { Difficulty = Difficulty.Hard, Rating = 5, QuestionText = "Who let the dog's out ?", Choices = new List<string> { "Me", "You", "All of us all are the culprits."}, IsMultiplechoice = true };
             
-            _questions = new List<Question> { firstQuestion, secondQuestion,brief,choice };
-            _user = new UserDetail { Name = "Ashutosh",Password="Password", UserRole = UserRole.Admin,DateOfCreation = DateTime.UtcNow};
-            _subject = new Subject { SubjectName = "Mathematics",SubjectCategory = "Advanced"};
+            _questions = new List<Question> { firstQuestion, secondQuestion, brief, choice };
+            _user = new UserDetail { Name = "Ashutosh", Password = "Password", UserRole = UserRole.Admin, DateOfCreation = DateTime.UtcNow };
+            _subject = new Subject { SubjectName = "Mathematics", SubjectCategory = "Advanced" };
             _tests = new List<Test> { 
-                                      new Test {TestId = 1, DateOfCreation = DateTime.UtcNow, Subject = _subject,Creator = _user, Questions = _questions},
-                                      new Test {TestId = 2, DateOfCreation = DateTime.UtcNow, Subject = _subject,Creator = _user, Questions = _questions}
+                                      new Test { TestId = 1, DateOfCreation = DateTime.UtcNow, Subject = _subject,Creator = _user, Questions = _questions },
+                                      new Test { TestId = 2, DateOfCreation = DateTime.UtcNow, Subject = _subject,Creator = _user, Questions = _questions }
                                     };
             mockrepository.Setup(_ => _.Query()).Returns(_tests.AsQueryable());
             _test = new Test { TestId = 3, DateOfCreation = DateTime.UtcNow, Subject = _subject, Creator = _user, Questions = _questions };
             mockrepository.Setup(_ => _.Add(_test)).Returns(_test);
             _repository = mockrepository.Object;
-            _service = new TestService(_repository,_UnitOfWork);
+            _service = new TestService(_repository, _unitOfWork);
             mockrepository.Setup(_ => _.Query()).Returns(_tests.AsQueryable()); 
 
         }
 
         /// <summary>
-        ///Cleanup() is called once during test execution after test methods in this class have executed unless
-        ///this test class' Initialize() method throws an exception.
-        ///</summary>
-        [TearDown()]
+        /// Cleanup() is called once during test execution after test methods in class have executed unless
+        /// test class' Initialize() method throws an exception.
+        /// </summary>
+        [TestFixtureTearDown]
         public void Cleanup()
         {
             _repository = null;
             _service = null;
             _tests = null;
             _questions = null;
-            _UnitOfWork = null;
+            _unitOfWork = null;
             mockrepository = null; 
         }
 
@@ -73,9 +82,9 @@ namespace UnitTests
         [TestCase(2)]
         public void GetTestCheck(int testId)
         {                      
-            var result =  _service.GetTest(testId);
+            var result = _service.GetTest(testId);
             Assert.IsNotNull(result);
-            Assert.AreEqual(4,result.First().Questions.Count());
+            Assert.AreEqual(4, result.First().Questions.Count());
         }
 
         [Test]

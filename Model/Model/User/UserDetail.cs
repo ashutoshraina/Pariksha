@@ -4,11 +4,34 @@ namespace ParikshaModel.Model
 {
     public class UserDetail
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public int UserDetailId { get; set; }
-        public String Name { get; set; }     
-        public String Password { get; set; }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Name { get; set; }     
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Password { get; set; }
+        
+        /// <summary>
+        /// 
+        /// </summary>
         public UserRole UserRole { get; set; }
-        public DateTime DateOfCreation{  get; set;}
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        public DateTime DateOfCreation { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public ICollection<Question> Questions { get; set; }
     }
 }
