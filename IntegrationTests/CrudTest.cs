@@ -28,8 +28,7 @@ namespace IntegrationTests
         
         public Subject Subject { get; set; }
         
-        public Standard Standard { get; set; }
-        
+        public Standard Standard { get; set; }        
 
         /// <summary>
         /// Initialize() is called once during test execution before
@@ -65,56 +64,67 @@ namespace IntegrationTests
         [TestFixture]
         public class UserDetailTest : CrudTest
         {     
-                [Test]
-                [Category("CRUDTestForUser")]
-                public void Create()
-                {
-                    User = new UserDetail { UserRole = UserRole.Admin, Password = "MySuperAwesomePasswordThatYouWillNotBeAbleToCrack", 
-                                                      Name = "awesome", DateOfCreation = DateTime.UtcNow };    
-                    var initialCount = UserRepository.Query().Count();
-                    UserRepository.Add(User);
-                    EfUoW.Commit();
-                    var result = UserRepository.Query().Count();
-                    Assert.AreEqual(initialCount + 1, result);
-                }
+            [Test]
+            [Category("CRUDTestForUser")]
+            public void Create()
+            {
+                User = new UserDetail 
+                                    { 
+                                        UserRole = UserRole.Admin, 
+                                        Password = "MySuperAwesomePasswordThatYouWillNotBeAbleToCrack", 
+                                        Name = "awesome", 
+                                        DateOfCreation = DateTime.UtcNow 
+                                    };    
+                var initialCount = UserRepository.Query().Count();
+                UserRepository.Add(User);
+                EfUoW.Commit();
+                var result = UserRepository.Query().Count();
+                Assert.AreEqual(initialCount + 1, result);
+            }
 
-                [Test]
-                [Category("CRUDTestForUser")]
-                public void Retrieve()
+            [Test]
+            [Category("CRUDTestForUser")]
+            public void Retrieve()
+            {
+                var userName = "ashutosh";
+                var result = UserRepository.Query().Where(_ => _.Name.Equals(userName));
+                  
+                bool isCountGreaterThanZero = false;
+                if (result.Count() > 0)
                 {
-                   var result = UserRepository.Query().Where(_ => _.Name.Equals("ashutosh"));
-                   var type = result.FirstOrDefault().GetType();
-                   var role = result.FirstOrDefault().UserRole;
-                   bool isCountGreaterThanZero = false;
-                   if (result.Count() > 0)
-                       isCountGreaterThanZero = true;
-                   Assert.AreEqual(typeof(UserDetail), type);
-                   Assert.AreEqual(true,isCountGreaterThanZero);
-                   Assert.AreEqual(UserRole.Admin, role);
+                    isCountGreaterThanZero = true;
                 }
+                   
+                Assert.AreEqual(true, isCountGreaterThanZero);
+                Assert.AreEqual(userName, result.FirstOrDefault().Name);
+            }
 
-                [Test]
-                [Category("CRUDTestForUser")]
-                public void Update()
-                {
-                    var user = UserRepository.Query().Where(_ => _.Name.Equals("ashutosh")).FirstOrDefault();
-                    user.UserRole = UserRole.Student;
-                    EfUoW.Commit();
-                    var result = UserRepository.Query().Where(_ => _.Name.Equals("ashutosh")).FirstOrDefault();
-                    Assert.IsNotNull(result);
-                    Assert.AreEqual(UserRole.Student, result.UserRole);
-                }
+            [Test]
+            [Category("CRUDTestForUser")]
+            public void Update()
+            {
+                var user = UserRepository.Query().FirstOrDefault();
+                user.Password = "SomeAwesomePassword";
+                var result = UserRepository.Update(user);
+                EfUoW.Commit();
+                    
+                Assert.IsNotNull(result);
+                Assert.AreEqual("SomeAwesomePassword", result.Password);
+            }
 
-                [Test]
-                [Category("CRUDTestForUser")]
-                public void Delete()
-                {
-                    var user = UserRepository.Query().Where(_ => _.Name.Equals("ashutosh")).FirstOrDefault();
-                    UserRepository.Remove(user);
-                    EfUoW.Commit();
-                    var result = UserRepository.Query().Where(_ => _.Name.Equals("ashutosh")).Count();
-                    Assert.IsNotNull(result);                    
-                }  
+            [Test]
+            [Ignore]
+            [Category("CRUDTestForUser")]
+            public void Delete()
+            {
+                var user = UserRepository.Query().FirstOrDefault();
+                UserRepository.Remove(user);
+                EfUoW.Commit();
+                var result = UserRepository.Query()
+                                            .Where(_ => _.UserDetailId == user.UserDetailId)
+                                            .FirstOrDefault();
+                Assert.IsNull(result);
+            }
         }
 
         [TestFixture]
@@ -149,9 +159,9 @@ namespace IntegrationTests
                     Creator = User,
                     Subject = Subject,
                     DateOfCreation = DateTime.UtcNow
-                };
-                   
+                };                   
             }
+
                 [Test]
                 [Category("CRUDTestForQuestion")]                
                 public void CreateBrief()
@@ -178,8 +188,15 @@ namespace IntegrationTests
                 [Category("CRUDTestForQuestion")]
                 public void Retrieve()
                 {
-                    var questionToAdd = new Brief { QuestionText = "I am a brief question", Rating = 4, Short = true, Difficulty = Difficulty.Hard, 
-                                                    Answer = "No real question", Creator = User, Subject = Subject, DateOfCreation = DateTime.UtcNow };
+                    var questionToAdd = new Brief 
+                                                  { 
+                                                    QuestionText = "I am a brief question", 
+                                                    Rating = 4, Short = true, 
+                                                    Difficulty = Difficulty.Hard, 
+                                                    Answer = "No real question", 
+                                                    Creator = User, 
+                                                    Subject = Subject, 
+                                                    DateOfCreation = DateTime.UtcNow };
                     var brief = QuestionRepository.Add(questionToAdd);
                     EfUoW.Commit();
 
@@ -193,8 +210,17 @@ namespace IntegrationTests
                 [Category("CRUDTestForQuestion")]
                 public void Update()
                 {
-                    var questionToAdd = new Brief { QuestionText = "I am a brief question", Rating = 4, Short = true, Difficulty = Difficulty.Hard, 
-                                                    Answer = "No real question", Creator = User, Subject = Subject, DateOfCreation = DateTime.UtcNow };
+                    var questionToAdd = new Brief 
+                                                { 
+                                                    QuestionText = "I am a brief question", 
+                                                    Rating = 4, 
+                                                    Short = true, 
+                                                    Difficulty = Difficulty.Hard, 
+                                                    Answer = "No real question", 
+                                                    Creator = User, 
+                                                    Subject = Subject, 
+                                                    DateOfCreation = DateTime.UtcNow 
+                                                };
                     var brief = QuestionRepository.Add(questionToAdd);
                     EfUoW.Commit();
 
@@ -344,5 +370,4 @@ namespace IntegrationTests
                 }
         }
     }
-
 }

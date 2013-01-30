@@ -10,7 +10,6 @@ namespace ParikshaServices
     /// </summary>
     public class QuestionService
     {
-
         private IRepository<Question> _questionrepository;
 
         private IUnitOfWork _unitofwork;
@@ -51,16 +50,28 @@ namespace ParikshaServices
         /// </summary>
         /// <param name="questionType"></param>
         /// <returns></returns>
-        public IQueryable<Question> GetAllQuestionsByType( Type questionType)
+        public IQueryable<Question> GetAllQuestionsByType(Type questionType)
         {
             if (questionType == typeof(Brief))
+            {
                 return _questionrepository.Query().OfType<Brief>();
+            }
+            
             if (questionType == typeof(Match))
+            {
                 return _questionrepository.Query().OfType<Match>();
+            }
+            
             if (questionType == typeof(Custom))
+            {
                 return _questionrepository.Query().OfType<Custom>();
+            }
+
             if (questionType == typeof(Choice))
-                return _questionrepository.Query().OfType<Choice>();
+            {
+                return _questionrepository.Query().OfType<Choice>(); 
+            }
+
             return null;            
         }
 

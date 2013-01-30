@@ -32,6 +32,6 @@ namespace ParikshaModel.Model
         /// <summary>
         /// 
         /// </summary>
-        public ICollection<Question> Questions { get; set; }
+        public virtual ICollection<Question> Questions { get; set; }
     }
 }

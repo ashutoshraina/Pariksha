@@ -1,11 +1,7 @@
 ﻿using ParikshaModel.Model;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
-using System.Data.Entity.ModelConfiguration.Configuration.Properties.Primitive;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Reflection;
 namespace EFRepository.Context
 {
     /// <summary>
@@ -18,8 +14,9 @@ namespace EFRepository.Context
             HasMany(_ => _.Questions)                
                 .WithRequired(_ => _.Creator)
                 .Map(_ => _.MapKey("UserDetailId"))
-                .WillCascadeOnDelete(false);
+                .WillCascadeOnDelete(true);
             ToTable("Users");
+            Property(_ => _.Name).HasColumnName("UserName").HasMaxLength(10);
         }
     }
 
@@ -62,7 +59,7 @@ namespace EFRepository.Context
                 .WithRequired(_ => _.Standard)
                 .Map(_ => _.MapKey("StandardId"))
                 .WillCascadeOnDelete(false);
-            ToTable("Standard");
+            ToTable("Standard");            
         }
     }
 
@@ -78,6 +75,7 @@ namespace EFRepository.Context
                 .Map(_ => _.MapKey("SubjectId"))
                 .WillCascadeOnDelete(true);
             ToTable("Subject");
+            Property(_ => _.SubjectName).HasMaxLength(15);
         }
     }
 

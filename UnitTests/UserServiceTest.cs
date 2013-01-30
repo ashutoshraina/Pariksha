@@ -28,7 +28,8 @@ namespace UnitTests
             mockrepository = new Mock<IRepository<UserDetail>>();
             _user = new UserDetail { Name = "Ashutosh", Password = "Password", UserRole = UserRole.Admin, DateOfCreation = DateTime.UtcNow };
             _users = new List<UserDetail> { _user };
-            _users = _users.Concat(new List<UserDetail> {
+            _users = _users.Concat(new List<UserDetail> 
+                        {
                         new UserDetail { Name = "Monny", Password = "Password1", UserRole = UserRole.DeparmentHead, DateOfCreation = DateTime.UtcNow },
                         new UserDetail { Name = "Jhonny", Password = "Password2", UserRole = UserRole.Principal, DateOfCreation = DateTime.UtcNow },
                         new UserDetail { Name = "Pony", Password = "Password3", UserRole = UserRole.Student, DateOfCreation = DateTime.UtcNow },
@@ -64,6 +65,36 @@ namespace UnitTests
         {            
             var result = _service.CreateNewUser(_user);
             Assert.IsNotNull(result);
+        }
+
+        [Test]
+        [Category("UserService")]
+        [Description("Checks if the password of the user is strong enough for acceptance")]
+        [TestCase("Password1989")]
+        [TestCase("Awesome1989")]
+        [TestCase("@wesome$567B")]
+        [TestCase("Billa786")]
+        [TestCase("*)(&*&9iA")]
+        public void CheckForStrongPassword(string password)
+        {
+           var result =  _service.IsStrongPassword(password);
+           Assert.IsTrue(result);
+        }
+
+        [Test]
+        [Category("UserService")]
+        [Description("Checks if the password of the user is strong enough for acceptance")]
+        [TestCase("pass")]
+        [TestCase("pass1")]
+        [TestCase("password")]
+        [TestCase("Password198919891891")]
+        [TestCase("123456789")]
+        [TestCase("@wesome$567")]
+        [TestCase("Zaaabbb1989")]
+        public void CheckForWeakPassword(string password)
+        {
+            var result =  _service.IsStrongPassword(password);
+           Assert.IsFalse(result);
         }
 
         [Test]

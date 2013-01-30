@@ -32,11 +32,11 @@
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.0.0-alpha2\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.0.0-alpha2-20124\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.0.0-alpha2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.0.0-alpha2-20124\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -48,7 +48,7 @@
   <ItemGroup>
     <Compile Include="Context\ParikshaDataBaseInitializer.cs" />
     <Compile Include="Infrastructure\EFRepository.cs" />
-    <Compile Include="Infrastructure\EFRepositoryUnitOfWorkException.cs" />
+    <Compile Include="Infrastructure\UnitOfWorkException.cs" />
     <Compile Include="Infrastructure\EFUnitOfWork.cs" />
     <Compile Include="Infrastructure\IRepository.cs" />
     <Compile Include="Infrastructure\IUnitOfWork.cs" />
