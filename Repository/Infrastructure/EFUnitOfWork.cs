@@ -3,6 +3,9 @@ using System.Data.Entity;
 
 namespace EFRepository.Infrastructure
 {
+    /// <summary>
+    /// Represents an IUnitOfWork for Entity Framework
+    /// </summary>
     public class EFUnitOfWork : IUnitOfWork
     {
         /// <summary>
@@ -16,11 +19,16 @@ namespace EFRepository.Infrastructure
         private bool _disposed = false;
 
         /// <summary>
-        /// Constructor with context as parameter to inject the DbContext
+        /// Initialises a new instance of EfUnitOfWork <see cref="EFUnitOfWork"/>
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">DbContex for the UnitOfWork</param>
         public EFUnitOfWork(DbContext context)
         {
+            if (context == null)
+            {
+                throw new UnitOfWorkException();
+            }
+
             _context = context;
         }
 
@@ -54,7 +62,7 @@ namespace EFRepository.Infrastructure
                     {
                         _context.Dispose();
                     }
-                }                
+                }             
             }
 
             _disposed = true;

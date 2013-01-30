@@ -1,4 +1,6 @@
 ﻿using System.Data.Entity;
+using System;
+
 namespace EFRepository.Context
 {
     /// <summary>
@@ -16,18 +18,27 @@ namespace EFRepository.Context
         {
             var exists = context.Database.Exists();
 
-            if (exists && context.Database.CompatibleWithModel(true))
+            try
             {
-                return;
+                if (exists && context.Database.CompatibleWithModel(true))
+                {
+                    return;
+                }
             }
-
-            if (exists)
+            catch
             {
-                context.Database.ExecuteSqlCommand("USE Master;ALTER DATABASE Pariksha SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE Pariksha");
-                context.SaveChanges();                
+                // Do nothing if no metadata 
             }
+            finally
+            {
+                if (exists)
+                {
+                    context.Database.ExecuteSqlCommand("USE Master;ALTER DATABASE Pariksha SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE Pariksha");
+                    context.SaveChanges();
+                }
 
-            context.Database.Create();
+                context.Database.Create();
+            }
         } 
     }
 }

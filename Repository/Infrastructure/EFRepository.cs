@@ -22,10 +22,10 @@ namespace EFRepository.Infrastructure
         private DbContext _dataContext;
 
         /// <summary>
-        /// Constructor which sets the DbContext and the UnitOfwork for the repository to perform actions on.
+        /// Initialises a new instance of Repository for <see cref="T"/>
         /// </summary>
-        /// <param name="unitOfWork"></param>
-        /// <param name="dataContext"></param>
+        /// <param name="unitOfWork">IUnitOfWork</param>
+        /// <param name="dataContext">DbContext</param>
         /// <exception cref="ArgumentNullException">Throws ArgumentNullException if any of the arguments is null</exception>
         public EFRepository(IUnitOfWork unitOfWork, DbContext dataContext)
         {
@@ -86,17 +86,6 @@ namespace EFRepository.Infrastructure
         public IQueryable<T> Query()
         {
             return _dbSet;
-        }
-
-        /// <summary>
-        /// Allows the caller to include a specific navigational property in the result set. 
-        /// </summary>
-        /// <param name="include"></param>
-        /// <returns>An IQueryable to run queries against the underlying DbSet with the included Navigational Property
-        /// </returns>
-        public IQueryable<T> QueryWithInclude(string include)
-        {
-            return _dbSet.Include(include);
         }
     }
 }

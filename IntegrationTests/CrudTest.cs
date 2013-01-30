@@ -44,9 +44,11 @@ namespace IntegrationTests
             StandardRepository = new EFRepository<Standard>(EfUoW, Context);
             SubjectRepository = new EFRepository<Subject>(EfUoW, Context);
             User = new UserDetail { UserRole = UserRole.Admin, Password = "Pwd", Name = "ashutosh", DateOfCreation = DateTime.UtcNow };
-            UserRepository.Add(User);
             Standard = new Standard { StandardName = "First" };
             Subject = new Subject { SubjectName = "Mathematics", SubjectCategory = "Algebra", Standard = Standard };
+            UserRepository.Add(User);
+            StandardRepository.Add(Standard);
+            SubjectRepository.Add(Subject);
             EfUoW.Commit();
         }
 
@@ -196,7 +198,8 @@ namespace IntegrationTests
                                                     Answer = "No real question", 
                                                     Creator = User, 
                                                     Subject = Subject, 
-                                                    DateOfCreation = DateTime.UtcNow };
+                                                    DateOfCreation = DateTime.UtcNow 
+                                                  };
                     var brief = QuestionRepository.Add(questionToAdd);
                     EfUoW.Commit();
 
@@ -272,18 +275,18 @@ namespace IntegrationTests
                 [Category("CRUDTestForStandard")]
                 public void Update()
                 {
-                    var subject = new Subject { SubjectName = "Mathematics", SubjectCategory = "Addition" };
-                    var result = StandardRepository.Query().FirstOrDefault();                    
-                    result.StandardName = "FooBaar";
-                    var initialCount = result.Subjects.Count();
-                    result.Subjects.Add(subject);
+                    var standard = StandardRepository.Query().FirstOrDefault();
+                    var subject = new Subject { SubjectName = "Mathematics", SubjectCategory = "Addition", Standard = standard };
+                    standard.StandardName = "FooBaar";
+                    var initialCount = standard.Subjects.Count();
+                    standard.Subjects.Add(subject);
 
                     EfUoW.Commit();
 
-                    var subjectName = StandardRepository.Query().FirstOrDefault().StandardName;
-                    Assert.AreEqual("FooBaar", subjectName);
+                    var result = StandardRepository.Query().FirstOrDefault();
+                    var standardName = result.StandardName;
+                    Assert.AreEqual("FooBaar", standardName);
                     Assert.AreEqual(initialCount + 1, result.Subjects.Count());
-                    Assert.AreEqual(true, result.Subjects.Contains(subject));
                 }
 
                 [Test]

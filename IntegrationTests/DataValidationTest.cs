@@ -6,15 +6,20 @@ using System;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
+
 namespace IntegrationTests
 {
     [TestFixture]
     public class DataValidationTest
     {
         public ParikshaContext Context { get; set; }
+
         public IRepository<UserDetail> UserRepository { get; set; }
+
         public IRepository<Subject> SubjectRepository { get; set; }
+        
         public IRepository<Standard> StandardRepository { get; set; }
+        
         public IUnitOfWork EfUnitOfWork { get; set; }
 
         [SetUp]
@@ -42,7 +47,7 @@ namespace IntegrationTests
         [Description("UserName can be maximum of length 10")]
         [TestCase("MegaUserNamePreparedForFailure")]
         [TestCase("SomethingGreater")]        
-        public void CheckUserNameLengthForException(String userName)
+        public void CheckUserNameLengthForException(string userName)
         {
             var user = new UserDetail
              {
@@ -61,7 +66,7 @@ namespace IntegrationTests
         [Description("UserName can be maximum of length 10")]
         [TestCase("Shakira")]
         [TestCase("Beyonce")]
-        public void CheckUserNameLengthForValidCases(String userName)
+        public void CheckUserNameLengthForValidCases(string userName)
         {
             var user = new UserDetail
             {
@@ -122,8 +127,8 @@ namespace IntegrationTests
                                         SubjectCategory = "MyAwesomeSubjectCategory"
                                     };
             var result = SubjectRepository.Add(subject);
-            Assert.Throws<DbUpdateException>(() => EfUnitOfWork.Commit());
-
+            Assert.Throws<DbUpdateException>(
+                                                () => EfUnitOfWork.Commit());
         }
     }
 }

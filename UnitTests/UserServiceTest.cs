@@ -12,12 +12,18 @@ namespace UnitTests
     public class UserServiceTest
     {
         private static IRepository<UserDetail> _repository;
+        
         private UserService _service;
+        
         private IEnumerable<UserDetail> _users;
+        
         private IUnitOfWork _unitOfWork;
+        
         private UserDetail _user;
+
         public TestContext TextContext { get; set; }
-        public Mock<IRepository<UserDetail>> mockrepository; 
+        
+        public Mock<IRepository<UserDetail>> MockRepository { get; set; } 
 
         /// <summary>
         /// Initialize() is called once during test execution before test methods in test class are executed.
@@ -25,7 +31,7 @@ namespace UnitTests
         [TestFixtureSetUp]
         public void Initialize()
         {
-            mockrepository = new Mock<IRepository<UserDetail>>();
+            MockRepository = new Mock<IRepository<UserDetail>>();
             _user = new UserDetail { Name = "Ashutosh", Password = "Password", UserRole = UserRole.Admin, DateOfCreation = DateTime.UtcNow };
             _users = new List<UserDetail> { _user };
             _users = _users.Concat(new List<UserDetail> 
@@ -37,10 +43,10 @@ namespace UnitTests
                         new UserDetail { Name = "Sunny", Password = "Password4", UserRole = UserRole.Admin, DateOfCreation = DateTime.UtcNow }
                         });
 
-            mockrepository.Setup(_ => _.Query()).Returns(_users.AsQueryable());
-            mockrepository.Setup(_ => _.Add(_user)).Returns(_user);
-            mockrepository.Setup(_ => _.Remove(_user)).Returns(_user);
-            _repository = mockrepository.Object;
+            MockRepository.Setup(_ => _.Query()).Returns(_users.AsQueryable());
+            MockRepository.Setup(_ => _.Add(_user)).Returns(_user);
+            MockRepository.Setup(_ => _.Remove(_user)).Returns(_user);
+            _repository = MockRepository.Object;
             _service = new UserService(_repository, _unitOfWork);
         }
 
@@ -55,7 +61,7 @@ namespace UnitTests
             _service = null;
             _users = null;
             _unitOfWork = null;
-            mockrepository = null;           
+            MockRepository = null;           
         }
 
         [Test]
@@ -77,7 +83,7 @@ namespace UnitTests
         [TestCase("*)(&*&9iA")]
         public void CheckForStrongPassword(string password)
         {
-           var result =  _service.IsStrongPassword(password);
+           var result = _service.IsStrongPassword(password);
            Assert.IsTrue(result);
         }
 
@@ -93,7 +99,7 @@ namespace UnitTests
         [TestCase("Zaaabbb1989")]
         public void CheckForWeakPassword(string password)
         {
-            var result =  _service.IsStrongPassword(password);
+            var result = _service.IsStrongPassword(password);
            Assert.IsFalse(result);
         }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EFRepository
+namespace EFRepository.Infrastructure
 {
     [Serializable]
     public class UnitOfWorkException : Exception
