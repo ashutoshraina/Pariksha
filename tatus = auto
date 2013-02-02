@@ -1,0 +1,73 @@
+[33mcommit bc968ef4a6f94fd10966880c183ad55abaec4370[m
+Author: Ashutosh Raina <ashutoshraina1989@gmail.com>
+Date:   Thu Jan 31 01:03:45 2013 +0530
+
+    Added comments to Model
+
+[33mcommit ba29c609e53ec2e44f625ebedd4f105b4142e987[m
+Author: Ashutosh Raina <ashutoshraina1989@gmail.com>
+Date:   Thu Jan 31 00:55:00 2013 +0530
+
+    Binary file: .git/COMMIT_EDITMSG
+    Added validation test, tests to check if exceptions are raised correctly.
+    Moving configuration out to different class.
+    Added comments to most of the code. Updated the EF nuget package.
+    Trying to play nice with stylecop.
+
+[33mcommit efd15849feb0c29eb98b7ec13b3f74c9645f9556[m
+Author: Ashutosh Raina <ashutoshraina1989@gmail.com>
+Date:   Wed Jan 23 01:12:39 2013 +0530
+
+    Fix for Match CRUD
+    
+    Added style cop settings, started on changes to make this more StyleCop
+    Compliant. Fixed incorrect Attribute Usage in Tests.
+
+[33mcommit 6b83a2af97eb18392ea273712b335f8d8c845dcc[m
+Author: Ashutosh Raina <ashutoshraina1989@gmail.com>
+Date:   Sun Jan 13 20:59:16 2013 +0530
+
+    Removed TestServiceTest
+    
+    The file somehowmade its way outside of the project.
+
+[33mcommit 3f6a19144ecab09a7244e5e90313be31a16e911b[m
+Author: Ashutosh Raina <ashutoshraina1989@gmail.com>
+Date:   Sun Jan 13 20:56:07 2013 +0530
+
+    Added initial suite of tests
+    
+    Added initialised startegy for the database. Completed unit tests for
+    the UserService. Created Enum for the UserRole in UserDetail.
+
+[33mcommit db9f15fdb9e16e927f7aeb4dc342d99feedd0d91[m
+Author: Ashutosh Raina <ashutoshraina1989@gmail.com>
+Date:   Sat Jan 12 21:37:50 2013 +0530
+
+    fix IDisposable implementation for the repository
+    
+    Also added some tests, changed property in Choice to IsMultipleChoice
+
+[33mcommit 315d8d9460e8890d141b1c4ab08f50a2d7e4ec8d[m
+Author: Ashutosh Raina <ashutoshraina1989@gmail.com>
+Date:   Sat Jan 12 19:56:28 2013 +0530
+
+    Changed Test Framework to NUnit
+
+[33mcommit 247bf0f3930a80e736c7a387351342a55fe94390[m
+Author: Ashutosh Raina <ashutoshraina1989@gmail.com>
+Date:   Thu Dec 27 19:01:35 2012 +0530
+
+    Adding the gitignore file
+    
+    Modifying the gitignore file
+    
+    Completed some integration tests
+    
+    Added some more integration tests
+
+[33mcommit 9bb4ffce45efcb6baf71de50c7860bcb7d912831[m
+Author: Ashutosh Raina <ashutoshraina1989@gmail.com>
+Date:   Thu Dec 27 18:26:25 2012 +0530
+
+    Initial Commit
