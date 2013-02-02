@@ -24,5 +24,9 @@ _ReSharper*/
 [Tt]est[Rr]esult*
 *.vssscc
 $tf*/
+<<<<<<< HEAD
 bin/
 Bin/
+=======
+[Bb]in/
+>>>>>>>  This is a combination of 5 commits.

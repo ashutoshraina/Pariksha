@@ -37,5 +37,13 @@ namespace ParikshaModel.Model
         /// Gets or sets the Subject to which the Question belongs
         /// </summary>
         public virtual Subject Subject { get; set; }
+<<<<<<< HEAD
+=======
+
+        /// <summary>
+        /// Gets or sets the Tests
+        /// </summary>
+        public virtual ICollection<Test> Tests { get; set; }
+>>>>>>>  This is a combination of 5 commits.
     }
 }

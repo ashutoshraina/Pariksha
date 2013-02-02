@@ -32,6 +32,19 @@ namespace EFRepository.Context
             modelBuilder.Entity<Custom>().ToTable("Custom");
             modelBuilder.Entity<Match>().ToTable("Match");
             modelBuilder.Entity<Choice>().ToTable("Choice");
+<<<<<<< HEAD
+=======
+
+            modelBuilder.Entity<Question>()
+                .HasMany(qd => qd.Tests)
+                .WithMany(t => t.Questions)
+                .Map(mc =>
+                {
+                    mc.MapLeftKey("QuestionId");
+                    mc.MapRightKey("TestId");
+                    mc.ToTable("Test_Questions");
+                });
+>>>>>>>  This is a combination of 5 commits.
         }
     }
 
@@ -46,6 +59,10 @@ namespace EFRepository.Context
                         .HasRequired(t => t.Creator)
                         .WithMany()
                         .WillCascadeOnDelete(false);
+<<<<<<< HEAD
+=======
+            Property(_ => _.DateOfCreation).IsRequired();           
+>>>>>>>  This is a combination of 5 commits.
         }
     }
 
@@ -74,11 +91,16 @@ namespace EFRepository.Context
             HasMany(_ => _.Questions)
                 .WithRequired(_ => _.Subject)
                 .Map(_ => _.MapKey("SubjectId"))
+<<<<<<< HEAD
                 .WillCascadeOnDelete(true);
+=======
+                .WillCascadeOnDelete(true);            
+>>>>>>>  This is a combination of 5 commits.
             ToTable("Subject");
             Property(_ => _.SubjectName).HasMaxLength(15);
         }
     }
+<<<<<<< HEAD
 
     /// <summary>
     /// Specifies the Configuration for the Entity TestQuestion
@@ -91,4 +113,7 @@ namespace EFRepository.Context
                 .HasKey(_ => _.TestQuestionId);
         }
     }
+=======
+       
+>>>>>>>  This is a combination of 5 commits.
 }

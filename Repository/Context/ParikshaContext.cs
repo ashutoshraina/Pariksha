@@ -34,9 +34,14 @@ namespace EFRepository.Context
         
         public DbSet<Match> Match { get; set; }
         
+<<<<<<< HEAD
         public DbSet<Test> Tests { get; set; }
         
         public DbSet<TestQuestion> TestQuestions { get; set; }
+=======
+        public DbSet<Test> Tests { get; set; }        
+       
+>>>>>>>  This is a combination of 5 commits.
         #endregion
 
         /// <summary>
@@ -51,7 +56,7 @@ namespace EFRepository.Context
             modelBuilder.Configurations.Add(new SubjectConfiguration(modelBuilder)); 
             modelBuilder.Configurations.Add(new QuestionConfiguration(modelBuilder));
             modelBuilder.Configurations.Add(new TestConfiguration(modelBuilder));
-            modelBuilder.Configurations.Add(new TestQuestionConfiguration(modelBuilder));  
+          
             modelBuilder.HasDefaultSchema("ParikshaDev");
         }      
     }
