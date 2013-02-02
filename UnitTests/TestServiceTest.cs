@@ -55,24 +55,16 @@ namespace UnitTests
                                                     TestId = 1, 
                                                     DateOfCreation = DateTime.UtcNow, 
                                                     Subject = _subject,
-<<<<<<< HEAD
                                                     Creator = _user,
-                                                    Questions = _questions 
-=======
-                                                    Creator = _user
->>>>>>>  This is a combination of 5 commits.
+                                                    Questions = _questions
                                                 },
                                       new Test 
                                                 { 
                                                     TestId = 2, 
                                                     DateOfCreation = DateTime.UtcNow, 
                                                     Subject = _subject,
-<<<<<<< HEAD
                                                     Creator = _user, 
-                                                    Questions = _questions 
-=======
-                                                    Creator = _user
->>>>>>>  This is a combination of 5 commits.
+                                                    Questions = _questions
                                                 }
                                     };
             MockRepository.Setup(_ => _.Query()).Returns(_tests.AsQueryable());
@@ -81,12 +73,8 @@ namespace UnitTests
                                TestId = 3, 
                                DateOfCreation = DateTime.UtcNow, 
                                Subject = _subject, 
-<<<<<<< HEAD
                                Creator = _user, 
                                Questions = _questions 
-=======
-                               Creator = _user                               
->>>>>>>  This is a combination of 5 commits.
                             };
             MockRepository.Setup(_ => _.Add(_test)).Returns(_test);
             _repository = MockRepository.Object;
@@ -117,12 +105,12 @@ namespace UnitTests
         public void GetTestCheck(int testId)
         {                      
             var result = _service.GetTest(testId);
-<<<<<<< HEAD
+
             Assert.IsNotNull(result);
             Assert.AreEqual(4, result.First().Questions.Count());
-=======
+
             Assert.IsNotNull(result);           
->>>>>>>  This is a combination of 5 commits.
+
         }
 
         [Test]

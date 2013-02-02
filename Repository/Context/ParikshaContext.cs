@@ -32,16 +32,10 @@ namespace EFRepository.Context
         
         public DbSet<Choice> Choice { get; set; }
         
-        public DbSet<Match> Match { get; set; }
-        
-<<<<<<< HEAD
-        public DbSet<Test> Tests { get; set; }
-        
-        public DbSet<TestQuestion> TestQuestions { get; set; }
-=======
+        public DbSet<Match> Match { get; set; }        
+
         public DbSet<Test> Tests { get; set; }        
-       
->>>>>>>  This is a combination of 5 commits.
+
         #endregion
 
         /// <summary>

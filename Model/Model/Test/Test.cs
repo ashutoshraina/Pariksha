@@ -28,12 +28,8 @@ namespace ParikshaModel.Model
         /// </summary>
         public virtual UserDetail Creator { get; set; }
 
-        /// <summary>
-<<<<<<< HEAD
-        /// Gets or sets the collection of questions in the Test
-=======
+        /// <summary>         
         /// Gets or sets the Questions
->>>>>>>  This is a combination of 5 commits.
         /// </summary>
         public virtual ICollection<Question> Questions { get; set; }
 
