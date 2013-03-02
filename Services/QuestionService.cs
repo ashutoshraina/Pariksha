@@ -1,5 +1,4 @@
 ﻿using EFRepository.Infrastructure;
-using EFRepository.Context;
 using ParikshaModel.Model;
 using System;
 using System.Linq;
@@ -33,7 +32,7 @@ namespace ParikshaServices
         /// <param name="newRating">The New Rating</param>
         public void ModifyQuestionRating(int questionId, int newRating)
         {
-            _questionRepository.Query().Where(_ => _.QuestionId == questionId).SingleOrDefault().Rating = newRating; 
+            _questionRepository.Query().SingleOrDefault(_ => _.QuestionId == questionId).Rating = newRating; 
         }
 
         /// <summary>
@@ -43,7 +42,7 @@ namespace ParikshaServices
         /// <param name="newDifficulty">The new Difficulty</param>
         public void ModifyQuestionDifficulty(int questionId, Difficulty newDifficulty)
         {
-            _questionRepository.Query().Where(_ => _.QuestionId == questionId).SingleOrDefault().Difficulty = newDifficulty;
+            _questionRepository.Query().SingleOrDefault(_ => _.QuestionId == questionId).Difficulty = newDifficulty;
         }
 
         /// <summary>

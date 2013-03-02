@@ -4,6 +4,7 @@ using ParikshaModel.Model;
 using System;
 using System.Linq;
 using NUnit.Framework;
+using ParikshaModel.Model.User;
 
 namespace IntegrationTests
 {
@@ -90,13 +91,10 @@ namespace IntegrationTests
             {
                 var userName = "ashutosh";
                 var result = UserRepository.Query().Where(_ => _.Name.Equals(userName));
-                  
-                bool isCountGreaterThanZero = false;
-                if (result.Count() > 0)
-                {
-                    isCountGreaterThanZero = true;
-                }
-                   
+                
+                Assert.IsNotNull(result);
+                bool isCountGreaterThanZero = result.Any();
+
                 Assert.AreEqual(true, isCountGreaterThanZero);
                 Assert.AreEqual(userName, result.FirstOrDefault().Name);
             }
@@ -244,7 +242,7 @@ namespace IntegrationTests
                     var question = QuestionRepository.Query().FirstOrDefault();
                     QuestionRepository.Remove(question);
                     EfUoW.Commit();
-                    var result = QuestionRepository.Query().Where(_ => _.QuestionId == question.QuestionId).Count();
+                    var result = QuestionRepository.Query().Count(_ => _.QuestionId == question.QuestionId);
                     Assert.AreEqual(0, result);
                 }          
         }
@@ -298,7 +296,7 @@ namespace IntegrationTests
                     EfUoW.Commit();
                     StandardRepository.Remove(subjectAdded);
                     EfUoW.Commit();
-                    var result = StandardRepository.Query().Where(_ => _.StandardId == subjectAdded.StandardId).Count();
+                    var result = StandardRepository.Query().Count(_ => _.StandardId == subjectAdded.StandardId);
                     Assert.IsNotNull(result);
                     Assert.AreEqual(0, result);
                 }        

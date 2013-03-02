@@ -2,6 +2,7 @@
 using EFRepository.Infrastructure;
 using NUnit.Framework;
 using ParikshaModel.Model;
+using ParikshaModel.Model.User;
 using System;
 
 namespace IntegrationTests

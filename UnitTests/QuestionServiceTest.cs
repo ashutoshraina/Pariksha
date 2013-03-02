@@ -64,7 +64,7 @@ namespace UnitTests
         {                 
             var newrating = 4;
             _service.ModifyQuestionRating(1, newrating);
-            Assert.AreEqual(4, _repository.Query().Where(_ => _.QuestionId == 1).SingleOrDefault().Rating);
+            Assert.AreEqual(4, _repository.Query().SingleOrDefault(_ => _.QuestionId == 1).Rating);
         }
 
         [Test]

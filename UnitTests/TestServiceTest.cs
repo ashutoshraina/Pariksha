@@ -2,6 +2,7 @@
 using Moq;
 using NUnit.Framework;
 using ParikshaModel.Model;
+using ParikshaModel.Model.User;
 using ParikshaServices;
 using System;
 using System.Collections.Generic;

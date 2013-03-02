@@ -1,10 +1,10 @@
-﻿using System.Data.Entity;
-using System;
+﻿using System;
+using System.Data.Entity;
 
 namespace EFRepository.Context
 {
     /// <summary>
-    /// Implements the IDatabaseInitializer<TContext> to provide a custom database initialisation for the context.
+    /// Implements the IDatabaseInitializer to provide a custom database initialisation for the context.
     /// </summary>
     /// <typeparam name="TContext">TContext is the DbContext</typeparam>
     public class ParikshaDataBaseInitializer<TContext> : IDatabaseInitializer<TContext> where TContext : DbContext
@@ -25,7 +25,7 @@ namespace EFRepository.Context
                     return;
                 }
             }
-            catch
+            catch (Exception)
             {
                 // Do nothing if no metadata 
             }

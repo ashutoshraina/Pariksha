@@ -40,12 +40,12 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Questions\Brief.cs" />
-    <Compile Include="Model\Questions\Choice.cs" />
-    <Compile Include="Model\Questions\Custom.cs" />
-    <Compile Include="Model\Questions\Enum.cs" />
-    <Compile Include="Model\Questions\Question.cs" />
-    <Compile Include="Model\Questions\Match.cs" />
+    <Compile Include="Model\Question\Brief.cs" />
+    <Compile Include="Model\Question\Choice.cs" />
+    <Compile Include="Model\Question\Custom.cs" />
+    <Compile Include="Model\Question\Enum.cs" />
+    <Compile Include="Model\Question\Question.cs" />
+    <Compile Include="Model\Question\Match.cs" />
     <Compile Include="Model\Standard\Standard.cs" />
     <Compile Include="Model\Subject\Subject.cs" />
     <Compile Include="Model\Test\Test.cs" />

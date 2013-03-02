@@ -1,7 +1,7 @@
 ﻿using ParikshaModel.Model;
+using ParikshaModel.Model.User;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
-using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace EFRepository.Context
 {

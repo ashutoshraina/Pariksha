@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using EFRepository.Infrastructure;
 using ParikshaModel.Model;
-using EFRepository.Infrastructure;
+using ParikshaModel.Model.User;
+using System.Linq;
 
 namespace ParikshaServices
 {

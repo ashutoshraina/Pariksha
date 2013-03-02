@@ -16,7 +16,7 @@ namespace EFRepository.Infrastructure
         /// <summary>
         /// Private field to check if the context has been disposed
         /// </summary>
-        private bool _disposed = false;
+        private bool _disposed;
 
         /// <summary>
         /// Initialises a new instance of EfUnitOfWork <see cref="EFUnitOfWork"/>

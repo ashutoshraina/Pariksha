@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ParikshaModel.Model.User;
 
 namespace ParikshaModel.Model
 {

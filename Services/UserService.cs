@@ -1,7 +1,7 @@
 ﻿using EFRepository.Infrastructure;
 using ParikshaModel.Model;
+using ParikshaModel.Model.User;
 using System.Linq;
-using System;
 
 namespace ParikshaServices
 {
@@ -32,23 +32,7 @@ namespace ParikshaServices
         /// <returns>True if the Password is strong.</returns>
         public bool IsStrongPassword(string password)
         {
-            // Minimum and Maximum Length of field - 6 to 12 Characters
-            if (password.Length < 6 || password.Length > 12)
-            {
-                return false;
-            }
-
-            // Numeric Character - At least one character
-            if (!password.Any(c => char.IsDigit(c)))
-            {
-                return false;
-            }
-
-            // At least one Capital Letter
-            if (!password.Any(c => char.IsUpper(c)))
-            {
-                return false;
-            }
+            if (!BareMinimumConditionsForPassword(password)) return false;
 
             // Repetitive Characters - Allowed only two repetitive characters
             var repeatCount = 0;
@@ -73,6 +57,17 @@ namespace ParikshaServices
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Checks for length of the password and if the password has atleast 1 digit and 1 upper character
+        /// </summary>
+        /// <param name="password">Password of the user</param>
+        /// <returns></returns>
+        private static bool BareMinimumConditionsForPassword(string password)
+        {
+            // Minimum and Maximum Length of field - 6 to 12 Characters
+            return password.Length >= 6 && password.Length <= 12 && password.Any(char.IsDigit) && password.Any(char.IsUpper);
         }
 
         /// <summary>

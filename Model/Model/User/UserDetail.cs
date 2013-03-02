@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ParikshaModel.Model
+namespace ParikshaModel.Model.User
 {
     /// <summary>
     /// UserDetail represents the details of a User
