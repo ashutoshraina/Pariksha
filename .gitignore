@@ -20,13 +20,32 @@ Thumbs.db
 *.lib
 *.sbr
 obj/
+
+#Tooling
 _ReSharper*/
+*.resharper
+[Tt]est[Rr]esult*
+*.sass-cache
 [Tt]est[Rr]esult*
 *.vssscc
 $tf*/
-<<<<<<< HEAD
-bin/
-Bin/
-=======
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+build/
 [Bb]in/
->>>>>>>  This is a combination of 5 commits.
+[Oo]bj/
+
+# Others
+sql/
+*.Cache
+ClientBin/
+[Ss]tyle[Cc]op.*
+~$*
+*~
+*.dbmdl
+*.[Pp]ublish.xml
+*.pfx
+*.publishsettings
