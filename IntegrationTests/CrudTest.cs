@@ -113,7 +113,7 @@ namespace IntegrationTests
             }
 
             [Test]
-            [Ignore]
+
             [Category("CRUDTestForUser")]
             public void Delete()
             {
