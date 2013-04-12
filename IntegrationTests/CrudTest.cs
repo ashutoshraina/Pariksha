@@ -120,9 +120,7 @@ namespace IntegrationTests
                 var user = UserRepository.Query().FirstOrDefault();
                 UserRepository.Remove(user);
                 EfUoW.Commit();
-                var result = UserRepository.Query()
-                                            .Where(_ => _.UserDetailId == user.UserDetailId)
-                                            .FirstOrDefault();
+                var result = UserRepository.Query().FirstOrDefault(_ => _.UserDetailId == user.UserDetailId);
                 Assert.IsNull(result);
             }
         }

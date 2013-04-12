@@ -11,10 +11,9 @@ namespace EFRepository.Context
     /// </summary>
     public class ParikshaContext : DbContext
     {
-        public ParikshaContext()
+        public ParikshaContext() : base("Pariksha")
         {           
-           Database.Connection.ConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=Pariksha;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=False;";
-           Database.SetInitializer(new ParikshaDataBaseInitializer<ParikshaContext>());
+          Database.SetInitializer(new ParikshaDataBaseInitializer<ParikshaContext>());
         }
 
         #region DbSet declaration
