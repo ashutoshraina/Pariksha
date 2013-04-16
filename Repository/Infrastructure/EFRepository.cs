@@ -39,7 +39,6 @@ namespace EFRepository.Infrastructure
                 throw new ArgumentNullException("dataContext", "dataContext cannot be null");
             }
 
-            var EfUnitOfWork = unitOfWork as EFUnitOfWork;            
             _dataContext = dataContext;
             _dbSet = _dataContext.Set<T>();
         }

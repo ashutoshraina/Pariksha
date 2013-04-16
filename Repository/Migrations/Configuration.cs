@@ -1,11 +1,8 @@
 namespace EFRepository.Migrations
 {
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
-
-    internal sealed class Configuration : DbMigrationsConfiguration<EFRepository.Context.ParikshaContext>
+    using Context;
+    internal sealed class Configuration : DbMigrationsConfiguration<ParikshaContext>
     {
         public Configuration()
         {
@@ -13,7 +10,7 @@ namespace EFRepository.Migrations
             ContextKey = "EFRepository.Context.ParikshaContext";
         }
 
-        protected override void Seed(EFRepository.Context.ParikshaContext context)
+        protected override void Seed(ParikshaContext context)
         {
 
             context.Database.ExecuteSqlCommand(@"ALTER TABLE [ParikshaDev].[Match] DROP CONSTRAINT [FK_ParikshaDev.Match_ParikshaDev.Questions_QuestionId]");

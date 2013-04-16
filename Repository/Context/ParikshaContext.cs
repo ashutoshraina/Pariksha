@@ -51,6 +51,7 @@ namespace EFRepository.Context
             modelBuilder.Configurations.Add(new TestConfiguration(modelBuilder));
           
             modelBuilder.HasDefaultSchema("ParikshaDev");
+
         }      
     }
 }

@@ -196,7 +196,7 @@ namespace IntegrationTests
                                                     Subject = Subject, 
                                                     DateOfCreation = DateTime.UtcNow 
                                                   };
-                    var brief = QuestionRepository.Add(questionToAdd);
+                    QuestionRepository.Add(questionToAdd);
                     EfUoW.Commit();
 
                     var result = QuestionRepository.Query().OfType<Brief>().FirstOrDefault();
@@ -220,7 +220,7 @@ namespace IntegrationTests
                                                     Subject = Subject, 
                                                     DateOfCreation = DateTime.UtcNow 
                                                 };
-                    var brief = QuestionRepository.Add(questionToAdd);
+                    QuestionRepository.Add(questionToAdd);
                     EfUoW.Commit();
 
                     var question = QuestionRepository.Query().OfType<Brief>().Where(_ => _.Rating > 3).FirstOrDefault();
@@ -334,13 +334,13 @@ namespace IntegrationTests
                 [Category("CRUDTestForSubject")]
                 public void Update()
                 {
-                    var initialCount = SubjectRepository.Query().Count();
+                    SubjectRepository.Query().Any();
                     var standard = StandardRepository.Query().FirstOrDefault();
                     var subject = new Subject { SubjectName = "Algorithms", SubjectCategory = "Advanced", Standard = standard };
                     SubjectRepository.Add(subject);
                     EfUoW.Commit();
 
-                    var result = SubjectRepository.Query().Where(_ => _.SubjectName.Equals("Algorithms")).FirstOrDefault();
+                    var result = SubjectRepository.Query().FirstOrDefault(_ => _.SubjectName.Equals("Algorithms"));
                     result.SubjectCategory = "SuperAdvanced";
                     SubjectRepository.Update(result);
                     EfUoW.Commit();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using EFRepository.Migrations;
 
 namespace EFRepository.Context
 {
@@ -22,18 +23,23 @@ namespace EFRepository.Context
             {
                 if (exists && context.Database.CompatibleWithModel(true))
                 {
+                    // everything is good , we are done
                     return;
+                }
+
+                if (!exists)
+                {
+                    context.Database.Create();
                 }
             }
             catch (Exception)
             {
-                // Do nothing if no metadata 
-            }
-            finally
-            {
+                //Something is wrong , either we could not locate the metadata or the model is not compatible.
+                //if the database exists and model is not compatible then go ahead drop it and recreate it.
                 if (exists)
                 {
-                    context.Database.ExecuteSqlCommand("USE Master;ALTER DATABASE Pariksha SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE Pariksha");
+                    context.Database.ExecuteSqlCommand("ALTER DATABASE Pariksha SET SINGLE_USER WITH ROLLBACK IMMEDIATE");
+                    context.Database.ExecuteSqlCommand("USE Master DROP DATABASE Pariksha");
                     context.SaveChanges();
                 }
 
