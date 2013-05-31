@@ -1497,6 +1497,13 @@
             </summary>
             <param name="writer"> The writer containing the SQL to be executed. </param>
         </member>
+        <member name="M:System.Data.Entity.SqlServer.SqlServerMigrationSqlGenerator.ResolveNameConflicts(System.Data.Entity.Migrations.Model.CreateTableOperation)">
+            <summary>
+                Creates a shallow copy of the source CreateTableOperation and the associated
+                AddPrimaryKeyOperation but renames the table and the primary key in order
+                to avoid name conflicts with existing objects.
+            </summary>
+        </member>
         <member name="P:System.Data.Entity.SqlServer.SqlServerMigrationSqlGenerator.GuidColumnDefault">
             <summary>
                 Returns the column default value to use for store-generated GUID columns when
